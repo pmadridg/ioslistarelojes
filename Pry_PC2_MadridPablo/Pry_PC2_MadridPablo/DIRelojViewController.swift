@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class DIRelojViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     
     @IBOutlet weak var clvRelojes: UICollectionView!
     
-    var arrayReloj = [DIRelojBE]()
+    var arrayReloj = [Relojes]()
     
     //MARK: - UICollectionViewDelegate UICollectionViewDataSource
     
@@ -41,13 +42,25 @@ class DIRelojViewController: UIViewController, UICollectionViewDelegate, UIColle
         return cell
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
-        self.arrayReloj = DIRelojBC.listarRelojPorMarca()
-        self.clvRelojes.reloadData()
+        
         
         super.viewWillAppear(animated)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        self.arrayReloj = DIRelojBC.listarTodosLosRelojesPorMarca()
+        
+        self.clvRelojes.reloadData()
+        
+        super.viewDidAppear(animated)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -67,32 +80,6 @@ class DIRelojViewController: UIViewController, UICollectionViewDelegate, UIColle
     //MARK: -
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let objReloj1 = DIRelojBE()
-        
-        objReloj1.reloj_modelo = "Cerato"
-        objReloj1.reloj_marca = "Kia"
-        objReloj1.reloj_id = "K0001"
-        objReloj1.reloj_stock = 2017
-        
-        let objReloj2 = DIRelojBE()
-        
-        objReloj2.reloj_modelo = "Cerato"
-        objReloj2.reloj_marca = "Kia5"
-        objReloj2.reloj_id = "K0002"
-        objReloj2.reloj_stock = 2017
-        
-        DIRelojBC.guardarReloj(objReloj1)
-        DIRelojBC.guardarReloj(objReloj2)
-        
-        self.arrayReloj = DIRelojBC.listarRelojPorMarca()
-        
-        self.clvRelojes.reloadData()
-        
-        // Do any additional setup after loading the view.
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -110,7 +97,7 @@ class DIRelojViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         if segue.identifier == "DIDetalleRelojViewController" {
             let controller = segue.destination as! DIDetalleRelojViewController
-            controller.objReloj = sender as! DIRelojBE
+            controller.objReloj = sender as! Relojes
         }
     }
     

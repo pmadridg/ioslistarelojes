@@ -7,32 +7,60 @@
 //
 
 import UIKit
+import CoreData
 
 class DIRelojDALC: NSObject {
     
-    //Instancia singleton
     static var sharedInstance = DIRelojDALC()
     
-    var arrayReloj = [DIRelojBE]()
+    var arrayRelojes = [Relojes]()
     
-    @discardableResult class func agregarReloj(_ objReloj : DIRelojBE) -> DIRelojBE? {
+    /*@discardableResult class func agregarAlumno(_ objAlumno : DIAlumnoBE) -> Alumnos{
+     
+     DIAlumnoDALC.sharedInstance.arrayAlumnos.append(objAlumno)
+     
+     return objAlumno
+     }*/
+    
+    
+    @discardableResult class func agregarReloj( objReloj : DIRelojBE, conContexto contexto : NSManagedObjectContext) -> Relojes {
         
-        DIRelojDALC.sharedInstance.arrayReloj.append(objReloj)
-        return objReloj
+        let objDM = NSEntityDescription.insertNewObject(forEntityName: "Relojes", into: contexto) as! Relojes
         
+        //Base de datos core data = clase DIModeloAutoBE
+        objDM.reloj_id = objReloj.reloj_id
+        objDM.reloj_marca = objReloj.reloj_marca
+        objDM.reloj_stock = Int16(objReloj.reloj_stock)
+        objDM.reloj_precio = objReloj.reloj_precio
+        objDM.reloj_modelo = objReloj.reloj_modelo
+        
+        
+        
+        return objDM
     }
     
-    class func listarTodos() -> [DIRelojBE] {
-        
-        return DIRelojDALC.sharedInstance.arrayReloj
-        
-    }
+    /*class func listarTodos() -> [Alumnos]{
+     return DIAlumnoDALC.sharedInstance.arrayAlumnos
+     
+     }*/
     
-    class func eliminarReloj(_ objReloj : DIRelojBE) {
+    class func listarTodosConContexto(_ contexto : NSManagedObjectContext) -> [Relojes]{
         
-        if let index = DIRelojDALC.sharedInstance.arrayReloj.index(of: objReloj){
-            DIRelojDALC.sharedInstance.arrayReloj.remove(at: index);
+        let fetchRequest : NSFetchRequest<Relojes> = Relojes.fetchRequest()
+        
+        do{
+            return try contexto.fetch(fetchRequest)
+        }catch{
+            return [Relojes]()
         }
     }
+    
+    /*class func eliminarAlumno(_ objAlumno : DIAlumnoBE){
+     
+     if let index = DIAlumnoDALC.sharedInstance.arrayAlumnos.index(of: objAlumno) {
+     DIAlumnoDALC.sharedInstance.arrayAlumnos.remove(at: index)
+     }
+     }*/
+
 
 }

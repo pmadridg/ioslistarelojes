@@ -17,7 +17,7 @@ class DIDetalleRelojViewController: UIViewController {
     @IBOutlet weak var lblPrecio: UILabel!
     @IBOutlet weak var lblStock: UILabel!
     
-    var objReloj : DIRelojBE!
+    var objReloj : Relojes!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class DIDetalleRelojViewController: UIViewController {
         self.lblID.text = self.objReloj.reloj_id!
         self.lblModelo.text = self.objReloj.reloj_modelo!
         self.lblMarca.text = self.objReloj.reloj_marca!
-        self.lblPrecio.text = "\(self.objReloj.reloj_precio)!"
+        self.lblPrecio.text = "\(self.objReloj.reloj_precio!)"
         self.lblStock.text = "\(self.objReloj.reloj_stock)!"
         // Do any additional setup after loading the view.
     }

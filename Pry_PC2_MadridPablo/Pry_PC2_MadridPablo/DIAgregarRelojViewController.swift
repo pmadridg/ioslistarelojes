@@ -29,8 +29,13 @@ class DIAgregarRelojViewController: UIViewController {
         objReloj.reloj_stock = Int(self.txtStock.text!)
         objReloj.reloj_precio = self.txtPrecio.text!
         
-        DIRelojBC.guardarReloj(objReloj)
-        _ = self.navigationController?.popViewController(animated : true)
+        DIRelojBC.agregar(objReloj, conCorrecto: {(objRelojDM) in
+            _ = self.navigationController?.popViewController(animated: true)
+        }) { (mensajeError) in
+            print(mensajeError)
+        }
+        
+        _ = self.navigationController?.popViewController(animated: true)
         
         
     }

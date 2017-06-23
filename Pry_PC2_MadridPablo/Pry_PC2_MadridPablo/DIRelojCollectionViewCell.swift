@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DIRelojCollectionViewCell: UICollectionViewCell {
     
@@ -15,7 +16,7 @@ class DIRelojCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var lblNombreReloj: UILabel!
     
-    var objReloj = DIRelojBE()
+    var objReloj = Relojes()
     
     override func draw(_ rect: CGRect) {
         self.layer.shadowRadius = 3
